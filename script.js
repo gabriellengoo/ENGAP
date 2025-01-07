@@ -268,12 +268,114 @@ document.addEventListener("DOMContentLoaded", function () {
   const far = 4000;
   scene.fog = new THREE.Fog(fogColor, near, far);
 
-  // Animation loop
+  
+  
+  
+  
+     // Animate Camera Position to Pan on Load
+  var clock = new THREE.Clock(); // Create a clock for timing animations
+  var targetPosition = { x: 0, y: 10, z: 350 }; // Target position
+  var startPosition = camera.position.clone();
+  var duration = 5; // Animation duration in seconds
+  
+    // Set initial camera position
+var cameraTargetPosition = new THREE.Vector3(0, 50, 100); // Default position
+camera.position.set(cameraTargetPosition.x, cameraTargetPosition.y, cameraTargetPosition.z);
+
+    function animateCamera() {
+    var elapsed = clock.getElapsedTime();
+    var t = Math.min(elapsed / duration, 1); // Clamp t to [0, 1]
+    camera.position.lerpVectors(startPosition, new THREE.Vector3(
+      targetPosition.x,
+      targetPosition.y,
+      targetPosition.z
+    ), t);
+
+    if (t < 1) {
+      requestAnimationFrame(animateCamera);
+    }
+  }
+  
+   // Start the animation after a short delay
+  setTimeout(() => {
+    clock.start();
+    animateCamera();
+  }, 500);
+
+  // Render Loop
   function animate() {
     requestAnimationFrame(animate);
-    controls.update();
+    controls.update(); // Update OrbitControls
     renderer.render(scene, camera);
   }
+  
+  //click
+// Raycaster and mouse setup
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
 
-  animate();
+// Variables for zooming state and original position
+var isZoomedIn = false;
+var originalCameraPosition = camera.position.clone(); // Store the original camera position
+var zoomDistance = 150; // Distance to zoom in on the clicked point
+
+// Double-click event to toggle zoom in/out
+window.addEventListener("dblclick", function (event) {
+  // Calculate mouse position in normalized device coordinates
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Update the raycaster with the camera and mouse position
+  raycaster.setFromCamera(mouse, camera);
+
+  // Cast the ray to detect objects (in this case, the scene background)
+  var intersects = raycaster.intersectObjects(scene.children, true);
+
+  if (intersects.length > 0) {
+    // If something is clicked, get the clicked point
+    var intersectedPoint = intersects[0].point;
+
+    if (isZoomedIn) {
+      // Zoom out by returning to the original camera position
+      camera.position.copy(originalCameraPosition);
+      controls.target.copy(new THREE.Vector3(0, 0, 0)); // Reset the target to the origin
+      isZoomedIn = false; // Toggle zoom state
+    } else {
+      // Zoom in by moving the camera closer to the clicked point
+      var zoomedInPosition = intersectedPoint.clone().add(new THREE.Vector3(0, 0, zoomDistance));
+      camera.position.copy(zoomedInPosition);
+
+      // Update orbit controls target to the clicked point
+      controls.target.copy(intersectedPoint);
+      isZoomedIn = true; // Toggle zoom state
+    }
+
+    // Enable panning when zoomed in
+    controls.enableDamping = true;  // Optional: enables smooth motion when panning
+    controls.dampingFactor = 0.25; // Adjusts the smoothness of panning
+    controls.screenSpacePanning = true; // Allows panning in screen space
+    controls.maxPolarAngle = Math.PI / 2;  // Prevents upside down view
+  }
+});
+
+
+
+
+
+ 
+// Animation loop
+function animate() {
+  requestAnimationFrame(animate);
+  
+ 
+  // Update the controls
+  controls.update(); // Update OrbitControls state
+  renderer.render(scene, camera); // Render the scene with the camera
+
+}
+  
+ 
+
+animate();
+
 });
