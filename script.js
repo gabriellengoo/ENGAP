@@ -10,6 +10,29 @@ document.addEventListener("DOMContentLoaded", function () {
   var raycaster = new THREE.Raycaster();
   var mouse = new THREE.Vector2();
 
+  
+  
+  // Load sound file
+var audio = new Audio('https://cdn.glitch.global/3f1ceb4c-e793-47b9-9898-baa8919ad50f/guitar%20loop.wav?v=1736290566075'); // Replace with the path to your sound file
+// guitarSound.preload = 'auto'; // Preload the sound to ensure it's ready when triggered
+    // const audio = new Audio('path-to-your-sound-file.wav'); // Replace with your file path
+  audio.muted = true;  // Mute the audio initially
+  audio.play();
+  
+  var audior = new Audio('https://cdn.glitch.me/3f1ceb4c-e793-47b9-9898-baa8919ad50f/ep2%20master.wav?v=1736292468001'); // Replace with the path to your sound file
+// guitarSound.preload = 'auto'; // Preload the sound to ensure it's ready when triggered
+    // const audio = new Audio('path-to-your-sound-file.wav'); // Replace with your file path
+  audior.muted = true;  // Mute the audio initially
+  audior.play();
+  
+  
+
+  // Once the user interacts, unmute the audio
+  // document.addEventListener('click', () => {
+  //   audio.muted = false;  // Unmute on user click
+  //   audio.play();  // Play the sound again
+  // });
+  
   // Tooltip setup
   var tooltip = document.createElement('div');
   tooltip.style.position = 'absolute';
@@ -77,14 +100,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   );
 
-  // Load the second new model
+  // // Load the second new model
+  // loader.load(
+  //   "https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/a_painting_about_goat.glb?v=1735345099353",
+  //   function (gltf) {
+  //     newModel2 = gltf.scene;
+  //   newModel2.scale.set(2, 2, 2);
+  //      newModel2.rotation.y = 55;
+  //     newModel2.position.set(-135, -160, -150);
+  //     scene.add(newModel2);
+  //   },
+  //   undefined,
+  //   function (error) {
+  //     console.error(error);
+  //   }
+  // );
+   // Load the second new model
   loader.load(
-    "https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/a_painting_about_goat.glb?v=1735345099353",
+    "https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/painting.glb?v=1735349715542",
     function (gltf) {
       newModel2 = gltf.scene;
-    newModel2.scale.set(2, 2, 2);
+    newModel2.scale.set(200, 200, 200);
        newModel2.rotation.y = 55;
-      newModel2.position.set(-135, -160, -150);
+      newModel2.position.set(-235, -150, 60);
       scene.add(newModel2);
     },
     undefined,
@@ -134,30 +172,70 @@ document.addEventListener("DOMContentLoaded", function () {
     var hoveredModel = null;
 
     // Check intersections with the models
-    if (guitarModel) {
-      var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
-      if (intersectsGuitar.length > 0) {
-        isHovering = true;
-        hoveredModel = guitarModel;
-        tooltip.textContent = "Click to view my music"; // Tooltip for the guitar
-      }
+    // if (guitarModel) {
+    //   var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
+    //   if (intersectsGuitar.length > 0) {
+    //     isHovering = true;
+    //     hoveredModel = guitarModel;
+    //     tooltip.textContent = "Click to view music"; // Tooltip for the guitar
+    //   }
+    // }
+        // Check intersections with the models
+   // Play the sound when hovering over the guitar
+if (guitarModel) {
+  var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
+  
+  // Check if the user is hovering over the guitar
+  if (intersectsGuitar.length > 0) {
+    isHovering = true;
+    hoveredModel = guitarModel;
+    tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view music✩⍣¯·.¸¸.·✩·."; // Tooltip for the guitar
+
+    // Play the sound when hovering over the guitar (if not already playing)
+    if (isHovering) {
+      audio.muted = false;  // Unmute on user click
+      audio.play();
     }
+  } else {
+    // If the raycaster no longer intersects with the guitar, stop the audio
+    if (!isHovering) {
+      isHovering = false;
+      audio.pause();  // Stop the audio
+      audio.currentTime = 0;  // Reset audio to the beginning if needed
+    }
+  }
+}
+
 
     if (newModel) {
       var intersectsNewModel = raycaster.intersectObject(newModel, true);
+      
       if (intersectsNewModel.length > 0) {
         isHovering = true;
         hoveredModel = newModel;
-        tooltip.textContent = "Click to explore another link"; // Tooltip for the first new model
-      }
+        tooltip.textContent = "★¸.•☆•.¸★ Click to explore audio ★⡀.•☆•.★"; // Tooltip for the first new model
+        
+         // Play the sound when hovering over the guitar
+        if (isHovering) {
+      audior.muted = false;  // Unmute on user click
+      audior.play();
     }
+  } else {
+    // If the raycaster no longer intersects with the guitar, stop the audio
+    if (!isHovering) {
+      isHovering = false;
+      audior.pause();  // Stop the audio
+      audior.currentTime = 0;  // Reset audio to the beginning if needed
+    }
+  }
+}
 
     if (newModel2) {
       var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
       if (intersectsNewModel2.length > 0) {
         isHovering = true;
         hoveredModel = newModel2;
-        tooltip.textContent = "Click to view more models"; // Tooltip for the second new model
+        tooltip.textContent = " ¸„٭⊹✡•~⍣°”ˆ˜¨Click to view visual art¨˜ˆ”°⍣~•✡⊹٭„¸"; // Tooltip for the second new model
       }
     }
 
@@ -166,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel3.length > 0) {
         isHovering = true;
         hoveredModel = newModel3;
-        tooltip.textContent = "Click for more info"; // Tooltip for the third new model
+        tooltip.textContent = "¯⍣✩¸Click for more sound✩⍣¯"; // Tooltip for the third new model
       }
     }
     
@@ -175,11 +253,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel4.length > 0) {
         isHovering = true;
         hoveredModel = newModel4;
-        tooltip.textContent = "Click for more info"; // Tooltip for the third new model
+        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view art✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
       }
     }
 
-    // Update tooltip visibility and cursor
+   // Update tooltip visibility and cursor
     if (isHovering) {
       tooltip.style.display = "block";
       tooltip.style.left = event.clientX + 10 + "px";
@@ -199,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (guitarModel) {
       var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
       if (intersectsGuitar.length > 0) {
-        window.location.href = "https://yourlink.com"; // Redirect for the guitar model
+        window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the guitar model
         return;
       }
     }
@@ -207,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (newModel) {
       var intersectsNewModel = raycaster.intersectObject(newModel, true);
       if (intersectsNewModel.length > 0) {
-        window.location.href = "https://another-link.com"; // Redirect for the first new model
+        window.location.href = "https://open.spotify.com/playlist/2e79lbLTTiXNszGgOWZQYT?si=xarLwG0KQAWmk3tlJeY0Pw&pi=e-dtKrUGyzTVCY"; // Redirect for the first new model
         return;
       }
     }
@@ -215,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (newModel2) {
       var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
       if (intersectsNewModel2.length > 0) {
-        window.location.href = "https://link2.com"; // Redirect for the second new model
+        window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the second new model
         return;
       }
     }
@@ -317,7 +395,7 @@ var mouse = new THREE.Vector2();
 // Variables for zooming state and original position
 var isZoomedIn = false;
 var originalCameraPosition = camera.position.clone(); // Store the original camera position
-var zoomDistance = 150; // Distance to zoom in on the clicked point
+var zoomDistance = 200; // Distance to zoom in on the clicked point
 
 // Double-click event to toggle zoom in/out
 window.addEventListener("dblclick", function (event) {
