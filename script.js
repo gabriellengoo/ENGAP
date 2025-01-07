@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsGuitar.length > 0) {
         isHovering = true;
         hoveredModel = guitarModel;
-        tooltip.textContent = "Click to view my music"; // Tooltip for the guitar
+        tooltip.textContent = "Click to view music"; // Tooltip for the guitar
       }
     }
 
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel.length > 0) {
         isHovering = true;
         hoveredModel = newModel;
-        tooltip.textContent = "Click to explore another link"; // Tooltip for the first new model
+        tooltip.textContent = "Click to explore audio"; // Tooltip for the first new model
       }
     }
 
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel2.length > 0) {
         isHovering = true;
         hoveredModel = newModel2;
-        tooltip.textContent = "Click to view more models"; // Tooltip for the second new model
+        tooltip.textContent = "Click to view art"; // Tooltip for the second new model
       }
     }
 
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel3.length > 0) {
         isHovering = true;
         hoveredModel = newModel3;
-        tooltip.textContent = "Click for more info"; // Tooltip for the third new model
+        tooltip.textContent = "Click for more sound"; // Tooltip for the third new model
       }
     }
     
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel4.length > 0) {
         isHovering = true;
         hoveredModel = newModel4;
-        tooltip.textContent = "Click for more info"; // Tooltip for the third new model
+        tooltip.textContent = "Click for more art"; // Tooltip for the third new model
       }
     }
 
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (guitarModel) {
       var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
       if (intersectsGuitar.length > 0) {
-        window.location.href = "https://yourlink.com"; // Redirect for the guitar model
+        window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the guitar model
         return;
       }
     }
@@ -317,7 +317,7 @@ var mouse = new THREE.Vector2();
 // Variables for zooming state and original position
 var isZoomedIn = false;
 var originalCameraPosition = camera.position.clone(); // Store the original camera position
-var zoomDistance = 150; // Distance to zoom in on the clicked point
+var zoomDistance = 200; // Distance to zoom in on the clicked point
 
 // Double-click event to toggle zoom in/out
 window.addEventListener("dblclick", function (event) {
