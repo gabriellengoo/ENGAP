@@ -98,7 +98,7 @@ var audio = new Audio('https://cdn.glitch.global/3f1ceb4c-e793-47b9-9898-baa8919
     function (error) {
       console.error(error);
     }
-  );
+  ); 
 
   // // Load the second new model
   // loader.load(
@@ -161,6 +161,10 @@ var audio = new Audio('https://cdn.glitch.global/3f1ceb4c-e793-47b9-9898-baa8919
       console.error(error);
     }
   );
+  
+  
+
+
 
   // Raycaster and mouse event listener for hover and click
   window.addEventListener("mousemove", function (event) {
@@ -213,21 +217,22 @@ if (guitarModel) {
       if (intersectsNewModel.length > 0) {
         isHovering = true;
         hoveredModel = newModel;
-        tooltip.textContent = "★¸.•☆•.¸★ Click to explore audio ★⡀.•☆•.★"; // Tooltip for the first new model
+        tooltip.textContent = "★¸.•☆•.¸★ Click to play audio ★⡀.•☆•.★"; // Tooltip for the first new model
         
          // Play the sound when hovering over the guitar
-        if (isHovering) {
-      audior.muted = false;  // Unmute on user click
-      audior.play();
-    }
-  } else {
-    // If the raycaster no longer intersects with the guitar, stop the audio
-    if (!isHovering) {
-      isHovering = false;
-      audior.pause();  // Stop the audio
-      audior.currentTime = 0;  // Reset audio to the beginning if needed
-    }
-  }
+    //     if (isHovering) {
+    //   audior.muted = false;  // Unmute on user click
+    //   audior.play();
+    // }
+  } 
+  //     else {
+  //   // If the raycaster no longer intersects with the guitar, stop the audio
+  //   if (!isHovering) {
+  //     isHovering = false;
+  //     audior.pause();  // Stop the audio
+  //     audior.currentTime = 0;  // Reset audio to the beginning if needed
+  //   }
+  // }
 }
 
     if (newModel2) {
@@ -282,13 +287,21 @@ if (guitarModel) {
       }
     }
 
-    if (newModel) {
-      var intersectsNewModel = raycaster.intersectObject(newModel, true);
-      if (intersectsNewModel.length > 0) {
-        window.location.href = "https://open.spotify.com/playlist/2e79lbLTTiXNszGgOWZQYT?si=xarLwG0KQAWmk3tlJeY0Pw&pi=e-dtKrUGyzTVCY"; // Redirect for the first new model
-        return;
-      }
+   if (newModel) {
+  var intersectsNewModel = raycaster.intersectObject(newModel, true);
+  if (intersectsNewModel.length > 0) {
+    if (audior.paused) {
+      // Play the audio if it's paused
+      audior.muted = false;
+      audior.play();
+    } else {
+      // Stop the audio if it's playing
+      audior.pause();
+      audior.currentTime = 0; // Reset the audio to the beginning (optional)
     }
+  }
+}
+
 
     if (newModel2) {
       var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
