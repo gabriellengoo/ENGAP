@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var loader = new THREE.GLTFLoader();
 
   // References to the models
-  var guitarModel, newModel, newModel2, newModel3, newModel4;
+  var guitarModel, newModel, newModel2, newModel3, newModel4, newModel5;
 
   // Load GLB Models
   var loader = new THREE.GLTFLoader();
@@ -148,6 +148,21 @@ document.addEventListener("DOMContentLoaded", function () {
       newModel4.rotation.y = 55;
       newModel4.position.set(195, -70, -100);
       scene.add(newModel4);
+    },
+    undefined,
+    function (error) {
+      console.error(error);
+    }
+  );
+  
+  loader.load(
+    "https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/sleeping_cat_on_the_bed_1_-_3d_scan.glb?v=1735021714635https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/sleeping_cat_on_the_bed_1_-_3d_scan.glb?v=1735021714635",
+    function (gltf) {
+      newModel5 = gltf.scene;
+      newModel5.scale.set(70, 70, 70);
+      newModel5.rotation.y = 55;
+      newModel5.position.set(195, -105, 70);
+      scene.add(newModel5);
     },
     undefined,
     function (error) {
@@ -265,6 +280,16 @@ document.addEventListener("DOMContentLoaded", function () {
         tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view art✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
       }
     }
+    
+     if (newModel5) {
+      var intersectsNewModel5 = raycaster.intersectObject(newModel5, true);
+      if (intersectsNewModel5.length > 0) {
+        isHovering = true;
+        hoveredModel = newModel5;
+        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click for Insta ✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
+      }
+    }
+
 
     // Update tooltip visibility and cursor
     if (isHovering) {
@@ -278,18 +303,71 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+ 
+  
   // Listen for mouse clicks to handle redirection
   window.addEventListener("click", function (event) {
-    raycaster.setFromCamera(mouse, camera);
-
-    // Check for intersections and handle redirection
-    if (guitarModel) {
+  raycaster.setFromCamera(mouse, camera);
+    
+     if (guitarModel) {
       var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
       if (intersectsGuitar.length > 0) {
         window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the guitar model
         return;
       }
     }
+
+  // Check for intersections and handle iframe display for newModel2
+  if (newModel2) {
+    var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
+    if (intersectsNewModel2.length > 0) {
+      // Check if an iframe already exists
+      var existingIframe = document.getElementById("newModel2Iframe");
+      if (!existingIframe) {
+        // Create an iframe element
+        var iframe = document.createElement("iframe");
+        iframe.id = "newModel2Iframe";
+        iframe.src = "https://www.youtube.com/embed/kgST1lRHW0o?si=X_d8a7pZXtF1Hrdl";
+        iframe.style.position = "absolute";
+        iframe.style.top = "50%";
+        iframe.style.left = "50%";
+        iframe.style.transform = "translate(-50%, -50%)";
+        iframe.style.width = "80%";
+        iframe.style.height = "80%";
+        iframe.style.border = "2px solid white";
+        iframe.style.borderRadius = "10px";
+        iframe.style.zIndex = "1000";
+        document.body.appendChild(iframe);
+
+        // Optional: Create a close button for the iframe
+        var closeButton = document.createElement("button");
+        closeButton.textContent = "Close";
+        closeButton.style.position = "absolute";
+        closeButton.style.top = "10%";
+        closeButton.style.left = "50%";
+        closeButton.style.transform = "translate(-50%, -50%)";
+        closeButton.style.zIndex = "1001";
+        closeButton.style.background = "black";
+        closeButton.style.color = "white";
+        closeButton.style.border = "none";
+        closeButton.style.padding = "10px 20px";
+        closeButton.style.borderRadius = "5px";
+        closeButton.style.cursor = "pointer";
+
+        // Append the close button
+        document.body.appendChild(closeButton);
+
+        // Close button event listener
+        closeButton.addEventListener("click", function () {
+          document.body.removeChild(iframe);
+          document.body.removeChild(closeButton);
+        });
+      }
+      return;
+    }
+  };
+
+
 
    // Event listener for interaction
 const handleInteraction = (event) => {
@@ -325,14 +403,13 @@ const handleInteraction = (event) => {
 window.addEventListener("click", handleInteraction); // Desktop
 window.addEventListener("touchstart", handleInteraction); // Mobile
 
-
-    if (newModel2) {
-      var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
-      if (intersectsNewModel2.length > 0) {
-        window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the second new model
-        return;
-      }
-    }
+// if (newModel2) {
+//   var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
+//   if (intersectsNewModel2.length > 0) {
+//     window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the second new model
+//     return;
+//   }
+// }
 
     if (newModel3) {
       var intersectsNewModel3 = raycaster.intersectObject(newModel3, true);
@@ -345,7 +422,16 @@ window.addEventListener("touchstart", handleInteraction); // Mobile
     if (newModel4) {
       var intersectsNewModel4 = raycaster.intersectObject(newModel4, true);
       if (intersectsNewModel4.length > 0) {
-        window.location.href = "https://link4.com"; // Redirect for the third new model
+        window.location.href = "https://untitled.stream/library/project/lULhxjMO4VfCqPd753Mtw"; // Redirect for the third new model
+        return;
+      }
+    }
+    
+    
+    if (newModel5) {
+      var intersectsNewModel5 = raycaster.intersectObject(newModel5, true);
+      if (intersectsNewModel5.length > 0) {
+        window.location.href = "https://www.instagram.com/engas_louder_than_eva?igsh=MXE3M201M3kzZGg3ZA%3D%3D&utm_source=qr"; // Redirect for the third new model
         return;
       }
     }
