@@ -7,17 +7,21 @@
 
     <title>ENGA</title>
     
-        <style>
-          
-          #myCanvas{
-            position: absolute;
-            top:0;
-            left:0;
-            width: 100vw;
-            height: 100vh;
-          
-          }
-          
+    <style>
+      @media (max-width: 768px) {
+        #tooltip {
+          display: block !important;
+        }
+      }
+
+      #myCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+
       body {
         margin: 0;
         height: 100vh;
@@ -26,6 +30,7 @@
         align-items: center;
         text-transform: uppercase;
         font-family: Helvetica;
+        position: relative;
       }
 
       .fade-text {
@@ -48,37 +53,118 @@
           opacity: 0;
         }
       }
+
+      .overlay-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+/*         transform: translate(-50%, -50%); */
+/*         background-color: rgba(0, 0, 0, 0.7); */
+        color: white;
+/*         font-size: 1.5rem; */
+/*         padding: 1rem 2rem; */
+        border: none;
+        cursor: pointer;
+        background-color: rgba(255, 0, 0, 0.0);
+             font-size: .8rem;
+        border-radius: 5px;
+        z-index: 1001;
+      }
+
+      .overlay-button:hover {
+/*         background-color: rgba(0, 0, 0, 0.9); */
+      }
+
+      /* Overlay Styles */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.0);
+        display: none;
+        justify-content: right;
+        align-items: right;
+             font-size: .8rem;
+        z-index: 1002;
+      }
+
+      .overlay-content {
+        color: white;
+        padding-top: 15vw;
+       padding-right: 6vw;
+/*         font-size: 2rem; */
+        text-align: right;
+        text-transform: lowercase;
+             font-size: .8rem;
+      }
+
+      .close-overlay {
+        position: absolute;
+        top: 9vh;
+        right: 5vw;
+        background-color: rgba(255, 0, 0, 0.0);
+        color: white;
+        border: none;
+/*         padding: 10px; */
+        cursor: pointer;
+             font-size: .8rem;
+        border-radius: 5px;
+      }
+
     </style>
-    <!-- import the webpage's stylesheet -->
+
+    <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
     
-    <!-- import the webpage's javascript file -->
-    
+    <!-- Import the webpage's javascript file -->
     <script src="/script.js" defer></script>
   </head>  
   <body>
-    
-      <div class="fade-text">ENGA<br/><br/>click to explore</div>
+    <div class="fade-text">click to explore<br/><br/>double tap to zoom</div>
     <canvas id="myCanvas"></canvas>
 
+    <!-- Overlay Button -->
+    <button class="overlay-button" onclick="openOverlay()">Cheat Code</button>
+
+    <!-- The Overlay -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+<!--         <p>Objects to find</p> -->
+        <p>Guitar<br/>
+        Vinal<br/>
+        Radio<br/>
+        Computer Desk</p>
+      </div>
+      <button class="close-overlay" onclick="closeOverlay()">x</button>
+    </div>
+
     <!-- Include Three.js library -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
 
-      <!-- Include FBX Loader -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/FBXLoader.js"></script>
+    <!-- Include FBX Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/FBXLoader.js"></script>
 
-    
-  <!-- Include GLTFLoader -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- Include GLTFLoader -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/GLTFLoader.js"></script>
 
-  <!-- Include OrbitControls -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Include OrbitControls -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
 
-    
-     <audio id="hoverAudio" loop>
-    <source src="path-to-your-audio-file.mp3" type="audio/mp3">
-  </audio>
+    <!-- Include your audio file -->
+    <audio id="hoverAudio" loop>
+      <source src="path-to-your-audio-file.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+      function openOverlay() {
+        document.getElementById('overlay').style.display = 'flex';
+      }
+
+      function closeOverlay() {
+        document.getElementById('overlay').style.display = 'none';
+      }
+    </script>
   </body>
-  
-  
 </html>

@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Load GLB Models
   var loader = new THREE.GLTFLoader();
 
+  
+  
   // Load the first GLB model (Outer model)
   loader.load(
     "https://cdn.glitch.global/da30e38f-201b-4efc-9671-2baa9ae5ee15/white_hart_house_-_quarantine%20(1).glb?v=1735524244789",
@@ -108,21 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   );
 
-  // // Load the second new model
-  // loader.load(
-  //   "https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/a_painting_about_goat.glb?v=1735345099353",
-  //   function (gltf) {
-  //     newModel2 = gltf.scene;
-  //   newModel2.scale.set(2, 2, 2);
-  //      newModel2.rotation.y = 55;
-  //     newModel2.position.set(-135, -160, -150);
-  //     scene.add(newModel2);
-  //   },
-  //   undefined,
-  //   function (error) {
-  //     console.error(error);
-  //   }
-  // );
+
   // Load the second new model
   loader.load(
     "https://cdn.glitch.global/494042e2-3d88-4420-9fed-57e4762a9e00/painting.glb?v=1735349715542",
@@ -194,16 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var isHovering = false;
     var hoveredModel = null;
 
-    // Check intersections with the models
-    // if (guitarModel) {
-    //   var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
-    //   if (intersectsGuitar.length > 0) {
-    //     isHovering = true;
-    //     hoveredModel = guitarModel;
-    //     tooltip.textContent = "Click to view music"; // Tooltip for the guitar
-    //   }
-    // }
-    // Check intersections with the models
+   
+  
     // Play the sound when hovering over the guitar
     if (guitarModel) {
       var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
@@ -237,20 +217,8 @@ document.addEventListener("DOMContentLoaded", function () {
         hoveredModel = newModel;
         tooltip.textContent = "★¸.•☆•.¸★ Click to play audio ★⡀.•☆•.★"; // Tooltip for the first new model
 
-        // Play the sound when hovering over the guitar
-        //     if (isHovering) {
-        //   audior.muted = false;  // Unmute on user click
-        //   audior.play();
-        // }
       }
-      //     else {
-      //   // If the raycaster no longer intersects with the guitar, stop the audio
-      //   if (!isHovering) {
-      //     isHovering = false;
-      //     audior.pause();  // Stop the audio
-      //     audior.currentTime = 0;  // Reset audio to the beginning if needed
-      //   }
-      // }
+  
     }
 
     if (newModel2) {
@@ -277,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (intersectsNewModel4.length > 0) {
         isHovering = true;
         hoveredModel = newModel4;
-        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view art✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
+        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸click for unreleased music✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
       }
     }
     
@@ -290,8 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-
-    // Update tooltip visibility and cursor
+   
+    
+         // Update tooltip visibility and cursor
     if (isHovering) {
       tooltip.style.display = "block";
       tooltip.style.left = event.clientX + 10 + "px";
@@ -302,6 +271,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.body.style.cursor = "default";
     }
   });
+    
+  
+ 
 
  
   
@@ -403,13 +375,7 @@ const handleInteraction = (event) => {
 window.addEventListener("click", handleInteraction); // Desktop
 window.addEventListener("touchstart", handleInteraction); // Mobile
 
-// if (newModel2) {
-//   var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
-//   if (intersectsNewModel2.length > 0) {
-//     window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the second new model
-//     return;
-//   }
-// }
+
 
     if (newModel3) {
       var intersectsNewModel3 = raycaster.intersectObject(newModel3, true);
