@@ -8,18 +8,16 @@
     <title>ENGA</title>
     
     <style>
-      @media (max-width: 768px) {
-        #tooltip {
-          display: block !important;
-        }
-      }
+     
 
       #myCanvas {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        z-index: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        color: black;
       }
 
       body {
@@ -91,6 +89,7 @@
       }
 
       .overlay-content {
+           position: absolute;
         color: white;
         padding-top: 15vw;
        padding-right: 6vw;
@@ -102,7 +101,7 @@
 
       .close-overlay {
         position: absolute;
-        top: 9vh;
+        top: 9vw;
         right: 5vw;
         background-color: rgba(255, 0, 0, 0.0);
         color: white;
@@ -122,19 +121,21 @@
     <script src="/script.js" defer></script>
   </head>  
   <body>
-    <div class="fade-text">click to explore<br/><br/>double tap to zoom</div>
+   
     <canvas id="myCanvas"></canvas>
 
+     <div class="fade-text">click to explore<br/><br/>double tap to zoom</div>
+    
     <!-- Overlay Button -->
     <button class="overlay-button" onclick="openOverlay()">Cheat Code</button>
 
     <!-- The Overlay -->
     <div id="overlay" class="overlay">
       <div class="overlay-content">
-<!--         <p>Objects to find</p> -->
         <p>Guitar<br/>
-        Vinal<br/>
+        vinyl player<br/>
         Radio<br/>
+          sleeping cat<br/>
         Computer Desk</p>
       </div>
       <button class="close-overlay" onclick="closeOverlay()">⍣✩CLOSE⍣✩</button>
@@ -152,10 +153,7 @@
     <!-- Include OrbitControls -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
 
-    <!-- Include your audio file -->
-    <audio id="hoverAudio" loop>
-      <source src="path-to-your-audio-file.mp3" type="audio/mp3">
-    </audio>
+ 
 
     <script>
       function openOverlay() {

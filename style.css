@@ -8,19 +8,13 @@ body {
 
 canvas {
   color: black;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100vw;
+        height: 100vh;
 }
 
 
-/* Styling for the "Click Me" text */
-/* .click-me-text {
-  position: absolute;
-  top: 50%;  /* Center the text vertically */
-  left: 50%; /* Center the text horizontally */
-  transform: translate(-50%, -50%); /* Adjust the positioning */
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  pointer-events: none; /* Ensure the text doesn't interfere with clicks */
-  display: none; /* Hidden by default, shown only on mobile */
-} */
+

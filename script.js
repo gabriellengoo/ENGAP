@@ -172,132 +172,160 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error(error);
     }
   );
-
-  // Raycaster and mouse event listener for hover and click
-  window.addEventListener("mousemove", function (event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-
-    var isHovering = false;
-    var hoveredModel = null;
-
-   
   
-    // Play the sound when hovering over the guitar
-    if (guitarModel) {
-      var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
-
-      // Check if the user is hovering over the guitar
-      if (intersectsGuitar.length > 0) {
-        isHovering = true;
-        hoveredModel = guitarModel;
-        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view music✩⍣¯·.¸¸.·✩·."; // Tooltip for the guitar
-
-        // Play the sound when hovering over the guitar (if not already playing)
-        if (isHovering) {
-          audio.muted = false; // Unmute on user click
-          audio.play();
-        }
-      } else {
-        // If the raycaster no longer intersects with the guitar, stop the audio
-        if (!isHovering) {
-          isHovering = false;
-          audio.pause(); // Stop the audio
-          audio.currentTime = 0; // Reset audio to the beginning if needed
-        }
-      }
-    }
-
-    if (newModel) {
-      var intersectsNewModel = raycaster.intersectObject(newModel, true);
-
-      if (intersectsNewModel.length > 0) {
-        isHovering = true;
-        hoveredModel = newModel;
-        tooltip.textContent = "★¸.•☆•.¸★ Click to play audio ★⡀.•☆•.★"; // Tooltip for the first new model
-
-      }
   
-    }
+  
+  
 
-    if (newModel2) {
-      var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
-      if (intersectsNewModel2.length > 0) {
-        isHovering = true;
-        hoveredModel = newModel2;
-        tooltip.textContent =
-          " ¸„٭⊹✡•~⍣°”ˆ˜¨Click to view visual art¨˜ˆ”°⍣~•✡⊹٭„¸"; // Tooltip for the second new model
-      }
-    }
+ // Raycaster and mouse event listener for hover and click
+function handleMouseMove(event) {
+  // Handle touch events as well
+  let x, y;
 
-    if (newModel3) {
-      var intersectsNewModel3 = raycaster.intersectObject(newModel3, true);
-      if (intersectsNewModel3.length > 0) {
-        isHovering = true;
-        hoveredModel = newModel3;
-        tooltip.textContent = "¯⍣✩¸Click for more sound✩⍣¯"; // Tooltip for the third new model
-      }
-    }
+  if (event.type === "touchmove") {
+    // Get the first touch point if it's a touch event
+    x = event.touches[0].clientX;
+    y = event.touches[0].clientY;
+    event.preventDefault(); // Prevent scrolling
+  } else {
+    // Mouse move
+    x = event.clientX;
+    y = event.clientY;
+  }
 
-    if (newModel4) {
-      var intersectsNewModel4 = raycaster.intersectObject(newModel4, true);
-      if (intersectsNewModel4.length > 0) {
-        isHovering = true;
-        hoveredModel = newModel4;
-        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸click for unreleased music✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
-      }
-    }
-    
-     if (newModel5) {
-      var intersectsNewModel5 = raycaster.intersectObject(newModel5, true);
-      if (intersectsNewModel5.length > 0) {
-        isHovering = true;
-        hoveredModel = newModel5;
-        tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click for Insta ✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
-      }
-    }
+  // Normalize mouse/touch coordinates
+  mouse.x = (x / window.innerWidth) * 2 - 1;
+  mouse.y = -(y / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
 
-   
-    
-         // Update tooltip visibility and cursor
-    if (isHovering) {
-      tooltip.style.display = "block";
-      tooltip.style.left = event.clientX + 10 + "px";
-      tooltip.style.top = event.clientY + 10 + "px";
-      document.body.style.cursor = "pointer";
+  var isHovering = false;
+  var hoveredModel = null;
+
+  // Play the sound when hovering over the guitar
+  if (guitarModel) {
+    var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
+
+    // Check if the user is hovering over the guitar
+    if (intersectsGuitar.length > 0) {
+      isHovering = true;
+      hoveredModel = guitarModel;
+      tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view music✩⍣¯·.¸¸.·✩·."; // Tooltip for the guitar
+
+      // Play the sound when hovering over the guitar (if not already playing)
+      if (isHovering) {
+        audio.muted = false; // Unmute on user click
+        audio.play();
+      }
     } else {
-      tooltip.style.display = "none";
-      document.body.style.cursor = "default";
+      // If the raycaster no longer intersects with the guitar, stop the audio
+      if (!isHovering) {
+        isHovering = false;
+        audio.pause(); // Stop the audio
+        audio.currentTime = 0; // Reset audio to the beginning if needed
+      }
     }
-  });
-    
-  
+  }
+
+  if (newModel) {
+    var intersectsNewModel = raycaster.intersectObject(newModel, true);
+
+    if (intersectsNewModel.length > 0) {
+      isHovering = true;
+      hoveredModel = newModel;
+      tooltip.textContent = "★¸.•☆•.¸★ Click to play audio ★⡀.•☆•.★"; // Tooltip for the first new model
+    }
+  }
+
+  if (newModel2) {
+    var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
+    if (intersectsNewModel2.length > 0) {
+      isHovering = true;
+      hoveredModel = newModel2;
+      tooltip.textContent =
+        " ¸„٭⊹✡•~⍣°”ˆ˜¨Click to view visual art¨˜ˆ”°⍣~•✡⊹٭„¸"; // Tooltip for the second new model
+    }
+  }
+
+  if (newModel3) {
+    var intersectsNewModel3 = raycaster.intersectObject(newModel3, true);
+    if (intersectsNewModel3.length > 0) {
+      isHovering = true;
+      hoveredModel = newModel3;
+      tooltip.textContent = "¯⍣✩¸Click for more sound✩⍣¯"; // Tooltip for the third new model
+    }
+  }
+
+  if (newModel4) {
+    var intersectsNewModel4 = raycaster.intersectObject(newModel4, true);
+    if (intersectsNewModel4.length > 0) {
+      isHovering = true;
+      hoveredModel = newModel4;
+      tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸click for unreleased music✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
+    }
+  }
+
+  if (newModel5) {
+    var intersectsNewModel5 = raycaster.intersectObject(newModel5, true);
+    if (intersectsNewModel5.length > 0) {
+      isHovering = true;
+      hoveredModel = newModel5;
+      tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click for Insta ✩⍣¯·.¸¸.·✩·."; // Tooltip for the third new model
+    }
+  }
+
+  // Update tooltip visibility and cursor
+  if (isHovering) {
+    tooltip.style.display = "block";
+    tooltip.style.left = x + 10 + "px";
+    tooltip.style.top = y + 10 + "px";
+    document.body.style.cursor = "pointer";
+  } else {
+    tooltip.style.display = "none";
+    document.body.style.cursor = "default";
+  }
+}
+
+// Add event listeners for both mouse and touch events
+window.addEventListener("mousemove", handleMouseMove);
+window.addEventListener("touchmove", handleMouseMove);
+
+// Ensure other touch events are handled if necessary
+window.addEventListener("touchstart", handleMouseMove); // Optional if you want to trigger on touch start
+
  
 
  
   
   // Listen for mouse clicks to handle redirection
-  window.addEventListener("click", function (event) {
-  raycaster.setFromCamera(mouse, camera);
-    
-     if (guitarModel) {
-      var intersectsGuitar = raycaster.intersectObject(guitarModel, true);
-      if (intersectsGuitar.length > 0) {
-        window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the guitar model
-        return;
-      }
-    }
+  
+// Raycaster and click/touch event listener for hover and click
+const handleInteraction = (event) => {
+  // Determine the type of input (mouse or touch)
+  const touch = event.touches ? event.touches[0] : event;
+  
+  // Update the raycaster with the pointer position
+  const pointer = new THREE.Vector2();
+  pointer.x = (touch.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
 
-  // Check for intersections and handle iframe display for newModel2
+  // Handle interaction with guitar model
+  if (guitarModel) {
+    const intersectsGuitar = raycaster.intersectObject(guitarModel, true);
+    if (intersectsGuitar.length > 0) {
+      window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the guitar model
+      return;
+    }
+  }
+
+  // Handle interaction with newModel2 and iframe display
   if (newModel2) {
-    var intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
+    const intersectsNewModel2 = raycaster.intersectObject(newModel2, true);
     if (intersectsNewModel2.length > 0) {
       // Check if an iframe already exists
-      var existingIframe = document.getElementById("newModel2Iframe");
+      const existingIframe = document.getElementById("newModel2Iframe");
       if (!existingIframe) {
-        // Create an iframe element
-        var iframe = document.createElement("iframe");
+        const iframe = document.createElement("iframe");
         iframe.id = "newModel2Iframe";
         iframe.src = "https://www.youtube.com/embed/kgST1lRHW0o?si=X_d8a7pZXtF1Hrdl";
         iframe.style.position = "absolute";
@@ -311,8 +339,8 @@ document.addEventListener("DOMContentLoaded", function () {
         iframe.style.zIndex = "1000";
         document.body.appendChild(iframe);
 
-        // Optional: Create a close button for the iframe
-        var closeButton = document.createElement("button");
+        // Create a close button for the iframe
+        const closeButton = document.createElement("button");
         closeButton.textContent = "Close";
         closeButton.style.position = "absolute";
         closeButton.style.top = "10%";
@@ -337,71 +365,54 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       return;
     }
-  };
+  }
 
-
-
-   // Event listener for interaction
-const handleInteraction = (event) => {
-  // Determine the type of input (mouse or touch)
-  const touch = event.touches ? event.touches[0] : event;
-
-  // Update the raycaster with the pointer position
-  const pointer = new THREE.Vector2();
-  pointer.x = (touch.clientX / window.innerWidth) * 2 - 1;
-  pointer.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-  raycaster.setFromCamera(pointer, camera);
-
+  // Handle interaction with other models (newModel, newModel3, etc.)
   if (newModel) {
-    var intersectsNewModel = raycaster.intersectObject(newModel, true);
-
+    const intersectsNewModel = raycaster.intersectObject(newModel, true);
     if (intersectsNewModel.length > 0) {
       if (audior.paused) {
-        // Play the audio if it's paused
         audior.muted = false;
         audior.play();
         tooltip.textContent = "★ Audio is playing ★"; // Update tooltip
       } else {
-        // Stop the audio if it's playing
         audior.pause();
-        audior.currentTime = 0; // Reset the audio to the beginning (optional)
+        audior.currentTime = 0;
         tooltip.textContent = "★ Click to play audio ★"; // Update tooltip
       }
+    }
+  }
+
+  // Handle redirects for other models
+  if (newModel3) {
+    const intersectsNewModel3 = raycaster.intersectObject(newModel3, true);
+    if (intersectsNewModel3.length > 0) {
+      window.location.href = "https://link3.com"; // Redirect for the third new model
+      return;
+    }
+  }
+
+  if (newModel4) {
+    const intersectsNewModel4 = raycaster.intersectObject(newModel4, true);
+    if (intersectsNewModel4.length > 0) {
+      window.location.href = "https://untitled.stream/library/project/lULhxjMO4VfCqPd753Mtw"; // Redirect for the fourth new model
+      return;
+    }
+  }
+
+  if (newModel5) {
+    const intersectsNewModel5 = raycaster.intersectObject(newModel5, true);
+    if (intersectsNewModel5.length > 0) {
+      window.location.href = "https://www.instagram.com/engas_louder_than_eva?igsh=MXE3M201M3kzZGg3ZA%3D%3D&utm_source=qr"; // Redirect for the fifth new model
+      return;
     }
   }
 };
 
 // Add event listeners for desktop and mobile
-window.addEventListener("click", handleInteraction); // Desktop
-window.addEventListener("touchstart", handleInteraction); // Mobile
+window.addEventListener("click", handleInteraction); // Desktop click event
+window.addEventListener("touchstart", handleInteraction); // Mobile touch event
 
-
-
-    if (newModel3) {
-      var intersectsNewModel3 = raycaster.intersectObject(newModel3, true);
-      if (intersectsNewModel3.length > 0) {
-        window.location.href = "https://link3.com"; // Redirect for the third new model
-        return;
-      }
-    }
-
-    if (newModel4) {
-      var intersectsNewModel4 = raycaster.intersectObject(newModel4, true);
-      if (intersectsNewModel4.length > 0) {
-        window.location.href = "https://untitled.stream/library/project/lULhxjMO4VfCqPd753Mtw"; // Redirect for the third new model
-        return;
-      }
-    }
-    
-    
-    if (newModel5) {
-      var intersectsNewModel5 = raycaster.intersectObject(newModel5, true);
-      if (intersectsNewModel5.length > 0) {
-        window.location.href = "https://www.instagram.com/engas_louder_than_eva?igsh=MXE3M201M3kzZGg3ZA%3D%3D&utm_source=qr"; // Redirect for the third new model
-        return;
-      }
-    }
-  });
 
   // Setup renderer
   var renderer = new THREE.WebGLRenderer({
