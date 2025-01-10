@@ -209,7 +209,7 @@ function handleMouseMove(event) {
     if (intersectsGuitar.length > 0) {
       isHovering = true;
       hoveredModel = guitarModel;
-      tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click to view music✩⍣¯·.¸¸.·✩·."; // Tooltip for the guitar
+      tooltip.textContent = "¸.·✩·.¸¸.·¯⍣✩¸Click for enga radio✩⍣¯·.¸¸.·✩·."; // Tooltip for the guitar
 
       // Play the sound when hovering over the guitar (if not already playing)
       if (isHovering) {
@@ -313,7 +313,7 @@ const handleInteraction = (event) => {
   if (guitarModel) {
     const intersectsGuitar = raycaster.intersectObject(guitarModel, true);
     if (intersectsGuitar.length > 0) {
-      window.location.href = "https://youtu.be/kgST1lRHW0o?feature=shared"; // Redirect for the guitar model
+      window.location.href = "https://open.spotify.com/playlist/2e79lbLTTiXNszGgOWZQYT?si=w-QfEIekSNuv_y2FiselfQ&pi=e-UVqW-b_-Qdq6"; // Redirect for the guitar model
       return;
     }
   }
@@ -497,45 +497,72 @@ window.addEventListener("touchstart", handleInteraction); // Mobile touch event
   var zoomDistance = 200; // Distance to zoom in on the clicked point
 
   // Double-click event to toggle zoom in/out
-  window.addEventListener("dblclick", function (event) {
-    // Calculate mouse position in normalized device coordinates
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+let lastClickTime = 0; // To store the timestamp of the last click
+const doubleClickThreshold = 300; // Maximum time (in ms) between clicks for a double-click
 
-    // Update the raycaster with the camera and mouse position
-    raycaster.setFromCamera(mouse, camera);
+window.addEventListener("click", function (event) {
+  const currentTime = new Date().getTime();
 
-    // Cast the ray to detect objects (in this case, the scene background)
-    var intersects = raycaster.intersectObjects(scene.children, true);
+  // Check if the time between the current and last click is within the threshold
+  if (currentTime - lastClickTime < doubleClickThreshold) {
+    // Simulate a double-click event
+    handleDoubleClick(event);
+  }
 
-    if (intersects.length > 0) {
-      // If something is clicked, get the clicked point
-      var intersectedPoint = intersects[0].point;
+  // Update the last click time
+  lastClickTime = currentTime;
+});
 
-      if (isZoomedIn) {
-        // Zoom out by returning to the original camera position
-        camera.position.copy(originalCameraPosition);
-        controls.target.copy(new THREE.Vector3(0, 0, 0)); // Reset the target to the origin
-        isZoomedIn = false; // Toggle zoom state
-      } else {
-        // Zoom in by moving the camera closer to the clicked point
-        var zoomedInPosition = intersectedPoint
-          .clone()
-          .add(new THREE.Vector3(0, 0, zoomDistance));
-        camera.position.copy(zoomedInPosition);
+  
+window.addEventListener("touchstart", function (event) {
+  const currentTime = new Date().getTime();
+  if (currentTime - lastClickTime < doubleClickThreshold) {
+    handleDoubleClick(event.touches[0]); // Pass the first touch point
+  }
+  lastClickTime = currentTime;
+});
 
-        // Update orbit controls target to the clicked point
-        controls.target.copy(intersectedPoint);
-        isZoomedIn = true; // Toggle zoom state
-      }
+  
+// Double-click event handler
+function handleDoubleClick(event) {
+  // Calculate mouse position in normalized device coordinates
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      // Enable panning when zoomed in
-      controls.enableDamping = true; // Optional: enables smooth motion when panning
-      controls.dampingFactor = 0.25; // Adjusts the smoothness of panning
-      controls.screenSpacePanning = true; // Allows panning in screen space
-      controls.maxPolarAngle = Math.PI / 2; // Prevents upside down view
+  // Update the raycaster with the camera and mouse position
+  raycaster.setFromCamera(mouse, camera);
+
+  // Cast the ray to detect objects (in this case, the scene background)
+  var intersects = raycaster.intersectObjects(scene.children, true);
+
+  if (intersects.length > 0) {
+    // If something is clicked, get the clicked point
+    var intersectedPoint = intersects[0].point;
+
+    if (isZoomedIn) {
+      // Zoom out by returning to the original camera position
+      camera.position.copy(originalCameraPosition);
+      controls.target.copy(new THREE.Vector3(0, 0, 0)); // Reset the target to the origin
+      isZoomedIn = false; // Toggle zoom state
+    } else {
+      // Zoom in by moving the camera closer to the clicked point
+      var zoomedInPosition = intersectedPoint
+        .clone()
+        .add(new THREE.Vector3(0, 0, zoomDistance));
+      camera.position.copy(zoomedInPosition);
+
+      // Update orbit controls target to the clicked point
+      controls.target.copy(intersectedPoint);
+      isZoomedIn = true; // Toggle zoom state
     }
-  });
+
+    // Enable panning when zoomed in
+    controls.enableDamping = true; // Optional: enables smooth motion when panning
+    controls.dampingFactor = 0.25; // Adjusts the smoothness of panning
+    controls.screenSpacePanning = true; // Allows panning in screen space
+    controls.maxPolarAngle = Math.PI / 2; // Prevents upside down view
+  }
+}
 
   // Animation loop
   function animate() {
